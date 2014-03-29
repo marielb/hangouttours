@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+<!-- Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *      
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License
+-->
+  <ModulePrefs title="Hangout Starter">
+    <Require feature="rpc" />
+    <Require feature="views" />
+    <Require feature="locked-domain" />
+  </ModulePrefs>
+  <Content type="html"><![CDATA[     
+<html>
+  <head>   
+    <script type="text/javascript"
+      src="//maps.googleapis.com/maps/api/js?key=AIzaSyAqwwIT8aSIQ03hXvYlXzOvRZ08Rv7LWDQ&sensor=false"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/1.1.0/annyang.min.js"></script>
+    <script src="//plus.google.com/hangouts/_/api/v1/hangout.js"></script>
+    <script src="//connect.soundcloud.com/sdk.js"></script>
+    <script src="//w.soundcloud.com/player/api.js"></script>
+    <style type="text/css">
+      html { height: 400px; overflow: scroll; }
+      body { background: #e74c3c; color: white; font-size: 14pt; font-family: "Lato", "Helvetica Neue", "Helvetica", sans-serif; height: 400px; padding: 0; margin: -10px 25px; overflow: auto}
+      ::-webkit-scrollbar {
+        -webkit-appearance: none;
+        width: 7px;
+      }
+      ::-webkit-scrollbar-thumb {
+        border-radius: 4px;
+        background-color: rgba(0,0,0,.5);
+        -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+      }
+      #map-canvas {
+        display:none;
+      }
+      #container {
+        margin-bottom: 30px;
+      }
+      #flickrGallery img {height: 18%; }
+      #calculator  { font-size:25pt; }
+      #definition strong { font-size:25pt; margin-top: -5px;}
+      #recipe { height: 300px; overflow: auto;}
+      #synonym { max-height: 250px; width: 400px; overflow: auto; margin-top: 10px;}
+      #soundcloud_results { width: 800px; height: 200px; margin-top: 15px; overflow: auto; }
+      .code {
+        font-family: monospace;
+        color: #666;
+        border: 1px solid #ddd;
+        padding: 10px;
+        background: #fff;
+        -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1), 0 0 40px rgba(0, 0, 0, 0.05) inset;
+        -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1), 0 0 40px rgba(0, 0, 0, 0.05) inset;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1), 0 0 40px rgba(0, 0, 0, 0.05) inset;
+        margin-bottom: 10px;
+      }
+      h1 {
+        display: inline-block;
+        margin-bottom: 5px;
+      }
+      h2 {
+        font-size: 50px;
+        margin-bottom: -10px;
+        font-weight: lighter;
+      }
+      a {
+        color: #f1c40f;
+        font-weight: bold;
+      }
+      a:hover {
+        cursor: pointer;
+      }
+      footer {
+        position: relative;
+        bottom: 0;
+        padding-top: 10px;
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="main">
+      <h1>OK Hangout</h1> (<a onClick="toggleDescription()">toggle help</a>)
+      <div id="description">
+        <p>
+          Use voice commands during a Google Hangout to quickly and seamlessly share query results.
+        </p>
+        <p>
+          Try saying "OK Hangout"
+        </p>
+        <div class="code">
+          // More Voice Commands
+          <br>
+          <span>Show me [query]</span>: Display images
+          <br>
+          <span>Where is [location]</span>: Drop a pin on a Google map
+          <br>
+          <span>Watch [query]</span>: Open Youtube video
+          <br>
+          <span>Listen to [song]</span>: Play a song using Soundcloud
+          <br>
+          <span>Calculate [expression]</span>: Supports multiplication, division, addition, subtraction
+          <br>
+          <span>Define [word]</span>: Show definition
+          <br>
+          <span>Synonyms for [word]</span>: Show synonyms
+          <br>
+          <span>Cook [word]</span>: Display recipe
+        </div>
+      </div>
+      <div id="container"></div>
+      <div id="map-canvas" style="width:800px;height:300px;"></div>
+    </div>
+    <footer>-----<br>Hacked by <a href="//twitter.com/whatmariel">@whatmariel</a> and <a href="//twitter.com/alexa_claire">@alexa_claire</a> at PearlHacks</footer>
+    <script>
+
+      var geocoder;
+      var map;
+      var tutorial = true;
+
+
+
+      function toggleDescription() {
+        $("#description").fadeToggle();
+      }
+
+      function initialize() {
+        geocoder = new google.maps.Geocoder();
+        var mapOptions = {
+          center: new google.maps.LatLng(-34.397, 150.644),
+          zoom: 8
+        };
+        map = new google.maps.Map(document.getElementById("map-canvas"),
+            mapOptions);
+      }
+
+      function clear() {
+        $("#description").hide();
+        $("#map-canvas").hide();
+        $("#container").empty();
+      }
+
+      function locate(location) {
+        clear();
+        console.log("locate: " + location);
+        $("#map-canvas").fadeIn();
+        $("#container").append("Displaying map of: " + location + "<br>");
+        geocoder.geocode( { 'address': location}, function(results, status) {
+          if (status == google.maps.GeocoderStatus.OK) {
+            map.setCenter(results[0].geometry.location);
+            var marker = new google.maps.Marker({
+                map: map,
+                position: results[0].geometry.location
+            });
+          } else {
+            console.log('Geocode was not successful for the following reason: ' + status);
+          }
+        });
+        google.maps.event.trigger(map, "resize");
+      }
+
+      function evaluate(expression) {
+        clear();
+        console.log("evaluate: " + expression);
+        try {
+          var re = /^(\d+) (\-|X|x|divided by|\+|times|plus|minus)\s?(\d+)$/;
+          var exArr = expression.match(re);
+          var operator;
+          switch(exArr[2]) {
+            case "X":
+              operator = "*";
+              break;
+            case "times":
+              operator = "*";
+              break;
+            case "divided by":
+              operator = "/";
+              break;
+            case "over":
+              operator = "/";
+              break;
+            case "plus":
+              operator = "+";
+              break;
+            case "-":
+              operator = "-";
+              break;
+            case "minus":
+              operator = "-";
+              break;
+          }
+          var expression = exArr[1] + operator + exArr[3];
+          var answer = eval(expression);
+          $("#container").append("<div id='calculator'>" + expression + " = " + answer + "</div>").fadeIn();
+        } catch (err) {
+          console.log("EXCEPTION: evaluate sucks")
+        }
+      }
+
+      var showFlickr = function(tag) {
+        clear();
+        $("#container").append("Showing image results for: " + tag + "<br><br><div id='flickrLoader'><p></p></div><div id='flickrGallery'></div>")
+        $('#flickrLoader p').text('Searching for '+tag).fadeIn('fast');
+        var url = '//api.flickr.com/services/rest/?method=flickr.photos.search&api_key=a828a6571bb4f0ff8890f7a386d61975&sort=interestingness-desc&per_page=9&format=json&callback=jsonFlickrApi&tags='+tag;
+        $.ajax({
+          type: 'GET',
+          url: url,
+          async: false,
+          jsonpCallback: 'jsonFlickrApi',
+          contentType: "application/json",
+          dataType: 'jsonp'
+        });
+      };
+
+      var jsonFlickrApi = function(results) {
+        $('#flickrLoader p').fadeOut('slow');
+        var photos = results.photos.photo;
+        $('#flickrGallery').empty();
+        $.each(photos, function(index, photo) {
+          $(document.createElement("img"))
+            .attr({ src: '//farm'+photo.farm+'.staticflickr.com/'+photo.server+'/'+photo.id+'_'+photo.secret+'_m.jpg' })
+            .addClass("flickrGallery")
+            .appendTo(flickrGallery);
+        });
+      };
+
+      var okPerson = function() {
+        console.log("OK, Human");
+        clear();
+        $("#container").append("<div id='okperson'>OK, Human.</div>").fadeIn();
+      };
+
+      var watch = function(query) {
+        clear();
+        console.log("watch: " + query);
+        $("#container").append('Youtube result for: ' + query + '<br><br>');
+        $("#container").append('<iframe id="ytplayer" type="text/html" width="640" height="360" src="https://www.youtube.com/embed/?listType=search&autoplay=1&list=' + query + '" frameborder="0" allowfullscreen></iframe><div id="playlist"></div>');
+      };
+
+      var define = function(query) {
+        clear();
+        console.log("define: " + query);
+        $.ajax({
+          url: '//api.pearson.com/v2/dictionaries/entries?headword=' + query + '&apikey=qfw3wC8nsZJhmF97mK2ywPmgZCpIxPBu', 
+          type: 'GET',
+          dataType: 'json',
+          success: function(data) {
+            var word = data['results'][0]['senses'][0];
+            $("#container").append("<div id='definition'><strong>" + query + "</strong><br>" + (word.definition !== undefined ? word.definition : '') + "</br><div>e.g. \"" + (word.examples[0].text !== undefined ? word.examples[0].text : '') + "\"</div>");
+              
+          }
+        });
+      };
+
+      var synonym = function(query) {
+        clear();
+        console.log("synonym: " + query);
+        $("#container").append("<strong>Synonyms for: " + query + "</strong>");
+        $("#container").append("<div id='synonym'></div>");
+        $.ajax({
+          url: 'http://words.bighugelabs.com/api/2/38e36cde2d19f45d5a1e4e686f12b7d7/' + query + '/json',
+          type: 'GET',
+          dataType: 'jsonp',
+          success: function(data) {
+            for (key in data) {
+              var ary = data[key].syn;
+              for (word in ary) {
+                $("#synonym").append(ary[word] + "<br>");
+              }
+            }
+          }
+        });
+      };
+
+      var recipe = function(query) {
+        clear();
+        console.log("recipe: " + query);
+        $("#container").append("Recipe for: " + query + "<div id='recipe'></div>");
+        $.ajax({
+          url: 'https://api.pearson.com/v2/foodanddrink/recipes?search=' + query,
+          type: 'GET',
+          dataType: 'json',
+          success: function(data) {
+            var recipe = data['results'][0];
+            if (recipe !== undefined) {
+              $("#recipe").append('<br><strong>Ingredients:</strong></br>');
+              var ingredients = recipe.ingredients;
+              for (i in ingredients) {
+                $("#recipe").append(ingredients[i].description + '</br>');
+              }
+              $("#recipe").append('</br></br><strong>Directions: </strong></br>' + recipe.directions.join('</br>'))
+            }
+          }
+        });
+      };
+
+      function replaceSoundcloud(track_url) {
+        SC.oEmbed(track_url, { auto_play: true, maxheight: 150, maxwidth: 800 }, function(oEmbed) {
+          $("#soundcloud").html(oEmbed.html).fadeIn();
+        });
+      }
+
+      function soundcloud(query) {
+        clear();
+        console.log("soundcloud: " + query);
+        var track_url;
+        SC.get('/tracks', { q: query }, function(tracks) {
+          console.log(tracks[0]);
+
+          track_url = tracks[0].permalink_url;
+          SC.oEmbed(track_url, { auto_play: true, maxheight: 150, maxwidth: 800 }, function(oEmbed) {
+            $("#container").append("<div id='soundcloud'>" + oEmbed.html + "</div>");
+            $("#container").append("<div id='soundcloud_results'>Soundcloud results for: " + query + "<br>");
+            for (var i = 0; i < tracks.length; i++) {
+              $("#soundcloud_results").append("<a onClick=replaceSoundcloud('" + tracks[i].permalink_url + "')>" + tracks[i].title + "</a><br>")
+            }
+            $("#container").append("</div>");
+          });
+        });
+      }
+
+      function flickrFired(term) {
+          gapi.hangout.data.submitDelta({"showFlickr":term});
+      }
+
+      function okFired() {
+        console.log('before firing');
+        gapi.hangout.data.submitDelta({"okPerson" : "true"});
+      }
+
+      function locateFired(term) {
+        gapi.hangout.data.submitDelta({'locate' : term});
+      }
+
+      function evalFired(term) {
+        gapi.hangout.data.submitDelta({'evaluate' : term});
+      }
+
+      function watchFired(term) {
+        gapi.hangout.data.submitDelta({'watch' : term});
+      }
+
+      function listenFired(term) {
+        gapi.hangout.data.submitDelta({'soundcloud' : term});
+      }
+
+      function defineFired(term) {
+        gapi.hangout.data.submitDelta({'define' : term});
+      }
+
+      function synonymFired(term) {
+        gapi.hangout.data.submitDelta({'synonym' : term});
+      }
+
+      function cookFired(term) {
+        gapi.hangout.data.submitDelta({'cook' : term});
+      }
+
+
+      /** Kick off the app. */
+      function init() {
+        // When API is ready...
+        gapi.hangout.onApiReady.add(
+          function(eventObj) {
+            if (eventObj.isApiReady) {
+              initialize();
+
+              SC.initialize({
+                client_id: '42a4426020b57d83c51a76d65856cca8'
+              });
+
+              if (annyang) {
+
+                // Let's define a command.
+                var commands = {
+                  'ok hangout': okFired, 
+                  'show me *term': flickrFired,
+                  'where is *location': locateFired,
+                  'calculate *expression': evalFired,
+                  'watch *term': watchFired,
+                  'listen to *query': listenFired,
+                  'define *term': defineFired,
+                  'synonym for *term': synonymFired,
+                  'cook *term': cookFired
+                };
+                // Add our commands to annyang
+                annyang.addCommands(commands);
+
+                // Start listening.
+                annyang.start();
+              }
+
+              gapi.hangout.data.onStateChanged.add(function(event) {
+                console.log('state has changed!');
+                console.log('object: ' + gapi.hangout.data.getState());
+                console.log('value: ' + gapi.hangout.data.getValue("showFlickr"));
+                console.log(event);
+                if (gapi.hangout.data.getValue("showFlickr") !== undefined) {
+                  console.log('in flickr');
+                  showFlickr(gapi.hangout.data.getValue("showFlickr"));
+                  gapi.hangout.data.clearValue("showFlickr");
+                } else if (gapi.hangout.data.getValue("okPerson") !== undefined) {
+                  console.log('in person');
+                  okPerson(gapi.hangout.data.getValue("okPerson"));
+                  gapi.hangout.data.clearValue("okPerson");
+                } else if (gapi.hangout.data.getValue("locate") !== undefined) {
+                  console.log('in locate');
+                  locate(gapi.hangout.data.getValue("locate"));
+                  gapi.hangout.data.clearValue("locate");
+                } else if (gapi.hangout.data.getValue("evaluate") !== undefined) {
+                  console.log('in eval');
+                  evaluate(gapi.hangout.data.getValue("evaluate"));
+                  gapi.hangout.data.clearValue("evaluate");
+                } else if (gapi.hangout.data.getValue("watch") !== undefined ) {
+                  console.log('in watch');
+                  watch(gapi.hangout.data.getValue("watch"));
+                  gapi.hangout.data.clearValue("watch");
+                } else if (gapi.hangout.data.getValue("soundcloud") !== undefined ) {
+                  console.log('in soundcloud');
+                  soundcloud(gapi.hangout.data.getValue("soundcloud"));
+                  gapi.hangout.data.clearValue("soundcloud");
+                } else if (gapi.hangout.data.getValue("define") !== undefined) {
+                  console.log('in define');
+                  define(gapi.hangout.data.getValue("define"));
+                  gapi.hangout.data.clearValue("define");
+                } else if (gapi.hangout.data.getValue("synonym") !== undefined) {
+                  console.log('in synonym');
+                  define(gapi.hangout.data.getValue("synonym"));
+                  gapi.hangout.data.clearValue("synonym");
+                } else if (gapi.hangout.data.getValue("cook") !== undefined) {
+                  console.log('in cook');
+                  recipe(gapi.hangout.data.getValue("cook"));
+                  gapi.hangout.data.clearValue("cook");
+                }
+              });
+            }
+          }
+        );
+      }
+
+
+      // Wait for gadget to load.                                                       
+      gadgets.util.registerOnLoadHandler(init);
+    </script>
+
+  </body>
+    ]]>
+  </Content>
+</Module>
