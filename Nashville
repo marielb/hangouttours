@@ -1,0 +1,74 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Foundation | Welcome</title>
+    <link rel="stylesheet" href="css/foundation.css" />
+    <script src="js/vendor/modernizr.min.js"></script>
+  </head>
+  <body>
+
+
+  	<!--Content for Baltimore window -->
+<img src="http://www.globeimages.net/data/media/5/nashville_skyline_photo.jpg" alt="Nashvilleline" width="600" height="600">
+
+  <p><h2 "font-family:helvetica;">Nashville, TN</h2></p>
+  <p><h3 "font-family:cursive;"><i>"Music City, USA"</i></h3></p>
+
+<h5 style="font-family:verdana;">Nashville faces tough competition to the claim of "Music City", but it certainly packs a punch in that fued. From the Grand Old Opry to the Country Music Hall of Fame, the state capital of Tennessee has no shortage of musical expertise. Around the city, you'll also find major sports franchises, outdoor festivals, and historical museums. </p>
+	
+<i>Today’s Hangout Tour: Teach for America</i></p>
+	Nashville’s famous music, top universities, and thriving health care industry often deflect attention from an incredibly stark level of inequity, especially in the school system. Case in point: in 2011, just 66 of 1,000 seniors at the city’s five highest-poverty high schools—Stratford, Pearl Cohn, Whites Creek, Maplewood, and Glencliff—achieved an ACT score that indicated they were prepared to enter college or a career.
+
+Great classrooms, schools, and districts require exceptional leadership, and in the past four years, our city and state have unleashed transformational initiatives. The stars have aligned for change, but we have a lot of work ahead.</h5>
+<p><h4><u>Your Tour Guide</u></h4></p>
+<img src="http://0.tqn.com/d/beauty/1/0/e/1/1/reese_witherspoon_bangs.jpg" alt="Reese Witherspoon" height="200" width="200">
+<h4> Reese Witherspoon</h4>
+<p><i><h7>Actress, Grew up in Nashville</h7></i></p>
+</p>
+</p>
+</p>
+<p><h6>Highlights around Nashville</h6>
+<img src="http://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Dolly_parton_grand_ole_opry.jpg/200px-Dolly_parton_grand_ole_opry.jpg" alt="Opry" width="300" height="300">
+<img src="http://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/TPAC_JohnsonHall.jpg/220px-TPAC_JohnsonHall.jpg" alt="Performing Arts Center" width="300" height="300">
+<img src="http://img.bleacherreport.net/img/article/media_slots/photos/001/328/235/hi-res-464127639-kevin-klein-of-the-nashville-predators-skates-against_crop_exact.jpg?w=650&h=433&q=85" alt="Predators Hockey" width="300" height="300">
+<img src="http://fantasysportfans.com/wp-content/uploads/2013/05/johnson-titans.jpg" alt="Titans" width="300" height="300">
+<img src="http://fe867b.medialib.glogster.com/media/f6/f621fb0ee4fdf4318d8ba7ae505bd2a8db68083108ebdf933c7ed016b97abc7a/2-1198724040-vanderbilt-university-campus.jpg" alt="Vanderbilt" width="300" height="300">
+<img src="http://www.tnvacation.com/triptales/wp-content/uploads/2012/09/ferris-wheel.jpg" alt="State Fair" width="250" height="250">
+
+
+
+
+
+
+
+<!-- Footer -->
+    
+    <footer class="row">
+      <div class="large-12 columns">
+        <hr />
+        <div class="row">
+          <div class="large-6 columns">
+            <p><font style="color:darkred">Hacked by <a href="https://twitter.com/whatmariel">@WhatMariel</a> and <a href="https://twitter.com/_TBabich">@_TBabich</a> at HackDuke.</p>
+          </div>
+          <div class="large-6 columns">
+            <ul class="inline-list right">
+              <li><a href="#"><style="size:14pt">Baltimore, MD </style><style="size:12pt"> March 30th, 1pm</style> </a></li>
+              <li><a href="file://localhost/Users/TARDIS/Sites/hangouttours/Charlotte"><style="size:14pt">Charlotte, NC </style><style="size:12pt"> March 30th, 10pm</style> </a></li>
+              <li><a href="#"><style="size:14pt">Memphis, TN </style><style="size:12pt"> April 2nd, 9am</style> </a></li>
+              <li><a href="#"><style="size:14pt">Jacksonville, FL </style><style="size:12pt"> April 5th, 2pm</style> </a></li>
+            </ul>
+          </div>
+        </div>
+      </div> 
+    </footer>
+      
+    <script src="js/vendor/jquery.min.js"></script>
+    <script src="js/foundation.min.js"></script>
+    <script src="js/vendor/foundation.accordion.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>  	

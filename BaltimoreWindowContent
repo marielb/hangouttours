@@ -1,0 +1,74 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Foundation | Welcome</title>
+    <link rel="stylesheet" href="css/foundation.css" />
+    <script src="js/vendor/modernizr.min.js"></script>
+  </head>
+  <body>
+
+
+  	<!--Content for Baltimore window -->
+<img src="http://www.baltimorenewsjournal.com/wp-content/uploads/2013/01/National-Aquarium.jpg" alt="AquariumSkyline">
+
+  <p><h2 "font-family:helvetica;">Baltimore, MD</h2></p>
+  <p><h3 "font-family:cursive;"><i>"The Charm City"</i></h3></p>
+
+<h5 style="font-family:verdana;">Baltimore is the gem of the Mid-Atlantic region, boasting 300 years of history, home to some of the world’s most famous authors, plus a vibrant culture bringing the best in sports, music, and cuisine. </p>
+	
+<i>Today’s Hangout Tour: Teach for America</i></p>
+	Based on the most recent Maryland School Assessment (MSA) data, only 62% of Baltimore City eighth graders are proficient in reading and just 38% are proficient in math compared to 91% and 82%, respectively, in Howard County.
+	Teach For America’s deep investment in Baltimore has shown that great leaders in classrooms, schools, and systems have the potential to significantly shift academic trajectories and life opportunities for Baltimore’s young people. We are heartened by the recent progress in schools—enrollment, graduation rates, and standardized test scores have all improved over the past five years.</h5>
+<p><h4><u>Your Tour Guide</u></h4></p>
+<img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRNWnpG9LXQuvsJ2yYi3EnaVsxUQMB6C23QTLPczCss9ZWegQhQ" alt="The Baltimore Oriole">
+<h4> The Oriole Bird</h4>
+<p><i><h7>Lifelong Baltimore resident, Mascot of the the Baltimore Orioles</h7></i></p>
+
+<p><a href="https://hangoutsapi.talkgadget.google.com/hangouts/_/72cpiqp89e92t8a6c311ofqaig?authuser=0">Join the Hangout Tour!</a></p>
+</p>
+</p>
+<p><h6>Highlights around Baltimore</h6>
+<img src="http://tiger.towson.edu/~saustr1/CamdenYards.jpg" alt="Camden Yards" width="300" height="300">
+<img src="http://baltimore.shownbyphotos.com/imgs/20070313-fells-point-0015-800.jpg" alt="Fells Point" width="300" height="300">
+<img src="http://chrisbrockman.files.wordpress.com/2012/09/ap687165132220.jpg" alt="Ravens" width="300" height="300">
+<img src="http://weblogs.baltimoresun.com/entertainment/midnight_sun/blog/nekocase.jpg" alt="Rams Head Live" width="300" height="300">
+<img src="http://americannurseproject.com/wp-content/files_mf/1337863061NCBsignageb.jpg" alt="Hopkins" width="300" height="300">
+<img src="http://upload.wikimedia.org/wikipedia/commons/e/e7/Ext-Night.jpg" alt="Basilica" width="250" height="250">
+
+
+
+
+
+
+
+<!-- Footer -->
+    
+    <footer class="row">
+      <div class="large-12 columns">
+        <hr />
+        <div class="row">
+          <div class="large-6 columns">
+            <p><font style="color:darkred">Hacked by <a href="https://twitter.com/whatmariel">@WhatMariel</a> and <a href="https://twitter.com/_TBabich">@_TBabich</a> at HackDuke.</p>
+          </div>
+          <div class="large-6 columns">
+            <ul class="inline-list right">
+              <li><a href="#"><style="size:14pt">Charlotte, NC </style><style="size:12pt"> March 30th, 10pm</style> </a></li>
+              <li><a href="#"><style="size:14pt">Memphis, TN </style><style="size:12pt"> April 2nd, 9am</style> </a></li>
+              <li><a href="#"><style="size:14pt">Nashville, TN </style><style="size:12pt"> April 2nd, 1pm</style> </a></li>
+              <li><a href="#"><style="size:14pt">Jacksonville, FL </style><style="size:12pt"> April 5th, 2pm</style> </a></li>
+            </ul>
+          </div>
+        </div>
+      </div> 
+    </footer>
+      
+    <script src="js/vendor/jquery.min.js"></script>
+    <script src="js/foundation.min.js"></script>
+    <script src="js/vendor/foundation.accordion.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>  	
