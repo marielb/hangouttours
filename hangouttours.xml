@@ -27,431 +27,327 @@
     <script src="//plus.google.com/hangouts/_/api/v1/hangout.js"></script>
     <script src="//connect.soundcloud.com/sdk.js"></script>
     <script src="//w.soundcloud.com/player/api.js"></script>
+    <link href="//fonts.googleapis.com/css?family=Lato" rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//hangouttours.github.io/css/app.css" />
     <style type="text/css">
-      html { height: 400px; overflow: scroll; }
-      body { background: #e74c3c; color: white; font-size: 14pt; font-family: "Lato", "Helvetica Neue", "Helvetica", sans-serif; height: 400px; padding: 0; margin: -10px 25px; overflow: auto}
-      ::-webkit-scrollbar {
-        -webkit-appearance: none;
-        width: 7px;
-      }
-      ::-webkit-scrollbar-thumb {
-        border-radius: 4px;
-        background-color: rgba(0,0,0,.5);
-        -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
-      }
-      #map-canvas {
-        display:none;
-      }
-      #container {
-        margin-bottom: 30px;
-      }
-      #flickrGallery img {height: 18%; }
-      #calculator  { font-size:25pt; }
-      #definition strong { font-size:25pt; margin-top: -5px;}
-      #recipe { height: 300px; overflow: auto;}
-      #synonym { max-height: 250px; width: 400px; overflow: auto; margin-top: 10px;}
-      #soundcloud_results { width: 800px; height: 200px; margin-top: 15px; overflow: auto; }
-      .code {
-        font-family: monospace;
-        color: #666;
-        border: 1px solid #ddd;
-        padding: 10px;
-        background: #fff;
-        -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1), 0 0 40px rgba(0, 0, 0, 0.05) inset;
-        -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1), 0 0 40px rgba(0, 0, 0, 0.05) inset;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1), 0 0 40px rgba(0, 0, 0, 0.05) inset;
-        margin-bottom: 10px;
-      }
-      h1 {
-        display: inline-block;
-        margin-bottom: 5px;
-      }
-      h2 {
-        font-size: 50px;
-        margin-bottom: -10px;
-        font-weight: lighter;
-      }
-      a {
-        color: #f1c40f;
-        font-weight: bold;
-      }
-      a:hover {
-        cursor: pointer;
-      }
-      footer {
-        position: relative;
-        bottom: 0;
-        padding-top: 10px;
-        margin-bottom: 20px;
-      }
+      html, body { background: #181818 }
+      body #main { color: #efefef; font-size: 14pt; font-family: "Lato", "Helvetica Neue", "Helvetica", sans-serif; width: 95%; margin: 10px auto; }
+      #main { overflow: auto; }
+      a, a:visited { text-decoration: none; color: #f39c12; font-weight: bold; }
+      h1 { color: #e74c3c; font-family: "Lato", "Helvetica Neue", "Helvetica", sans-serif; font-weight: 500;}
+      footer { color: #efefef; font-family: "Lato", "Helvetica Neue", "Helvetica", sans-serif; width: 95%; margin: 10px auto; }
     </style>
   </head>
   <body>
     <div id="main">
-      <h1>OK Hangout</h1> (<a onClick="toggleDescription()">toggle help</a>)
-      <div id="description">
-        <p>
-          Use voice commands during a Google Hangout to quickly and seamlessly share query results.
-        </p>
-        <p>
-          Try saying "OK Hangout"
-        </p>
-        <div class="code">
-          // More Voice Commands
-          <br>
-          <span>Show me [query]</span>: Display images
-          <br>
-          <span>Where is [location]</span>: Drop a pin on a Google map
-          <br>
-          <span>Watch [query]</span>: Open Youtube video
-          <br>
-          <span>Listen to [song]</span>: Play a song using Soundcloud
-          <br>
-          <span>Calculate [expression]</span>: Supports multiplication, division, addition, subtraction
-          <br>
-          <span>Define [word]</span>: Show definition
-          <br>
-          <span>Synonyms for [word]</span>: Show synonyms
-          <br>
-          <span>Cook [word]</span>: Display recipe
-        </div>
-      </div>
-      <div id="container"></div>
-      <div id="map-canvas" style="width:800px;height:300px;"></div>
+      <h1>Hangout Tours: Baltimore City</h1>
+      <div id="map_canvas1" style="width: 650px; height: 400px; float: left;"></div> 
+      <div id="space" style="width=10px; height: 400px; float: left;">&nbsp;</div> 
+      <div id="map_canvas2" style="width: 650px; height: 400px; float: left;"></div>
     </div>
-    <footer>-----<br>Hacked by <a href="//twitter.com/whatmariel">@whatmariel</a> and <a href="//twitter.com/alexa_claire">@alexa_claire</a> at PearlHacks</footer>
-    <script>
+    <br>
+    <footer>-----<br>Hacked by <a href="//twitter.com/whatmariel" target="_blank">@whatmariel</a> and <a href="//twitter.com/tylerbabich" target="_blank">@tylerbabich</a> at HackDuke</footer>
 
-      var geocoder;
+    <script type="text/javascript">
       var map;
-      var tutorial = true;
-
-
-
-      function toggleDescription() {
-        $("#description").fadeToggle();
-      }
-
+      var panorama;
+      var panoramaOptions;
+      var hangout = true;
+    
+      // the function called when the page loads; it shows the map and street view
       function initialize() {
-        geocoder = new google.maps.Geocoder();
+        // coordinates for the center of the map
+        var mapCenter = new google.maps.LatLng(39.286704,-76.608411);
+        // options for the map
         var mapOptions = {
-          center: new google.maps.LatLng(-34.397, 150.644),
-          zoom: 8
+          center: mapCenter,
+          zoom: 15,
+          mapTypeId: google.maps.MapTypeId.ROADMAP,
+          streetViewControl: true
         };
-        map = new google.maps.Map(document.getElementById("map-canvas"),
-            mapOptions);
-      }
-
-      function clear() {
-        $("#description").hide();
-        $("#map-canvas").hide();
-        $("#container").empty();
-      }
-
-      function locate(location) {
-        clear();
-        console.log("locate: " + location);
-        $("#map-canvas").fadeIn();
-        $("#container").append("Displaying map of: " + location + "<br>");
-        geocoder.geocode( { 'address': location}, function(results, status) {
-          if (status == google.maps.GeocoderStatus.OK) {
-            map.setCenter(results[0].geometry.location);
-            var marker = new google.maps.Marker({
-                map: map,
-                position: results[0].geometry.location
-            });
-          } else {
-            console.log('Geocode was not successful for the following reason: ' + status);
+        // create a new map object to be shown in the map_canvas1 div elements and with the options that were set
+        map = new google.maps.Map(document.getElementById("map_canvas1"), mapOptions);
+        
+        // options for the panorama
+        if (hangout && gapi.hangout.getLocalParticipant().person.displayName != "Mariel Bartolome") {
+          panoramaOptions = {
+            draggable: false,
+            addressControl: true,
+            addressControlOptions: {
+              style: {backgroundColor: 'grey', color: 'yellow'}
+            },
+            linksControl: false,
+            panControl: false,
+            zoomControl: false,
+            position: mapCenter,
+            pov: {
+              heading: -177,
+              pitch: -0.3,
+              zoom: 1
+            }
           }
-        });
-        google.maps.event.trigger(map, "resize");
-      }
-
-      function evaluate(expression) {
-        clear();
-        console.log("evaluate: " + expression);
-        try {
-          var re = /^(\d+) (\-|X|x|divided by|\+|times|plus|minus)\s?(\d+)$/;
-          var exArr = expression.match(re);
-          var operator;
-          switch(exArr[2]) {
-            case "X":
-              operator = "*";
-              break;
-            case "times":
-              operator = "*";
-              break;
-            case "divided by":
-              operator = "/";
-              break;
-            case "over":
-              operator = "/";
-              break;
-            case "plus":
-              operator = "+";
-              break;
-            case "-":
-              operator = "-";
-              break;
-            case "minus":
-              operator = "-";
-              break;
+        } else {
+          panoramaOptions = {
+            addressControl: true,
+            addressControlOptions: {
+              style: {backgroundColor: 'grey', color: 'yellow'}
+            },
+            position: mapCenter,
+            pov: {
+              heading: -177,
+              pitch: -0.3,
+              zoom: 1
+            }
           }
-          var expression = exArr[1] + operator + exArr[3];
-          var answer = eval(expression);
-          $("#container").append("<div id='calculator'>" + expression + " = " + answer + "</div>").fadeIn();
-        } catch (err) {
-          console.log("EXCEPTION: evaluate sucks")
         }
-      }
-
-      var showFlickr = function(tag) {
-        clear();
-        $("#container").append("Showing image results for: " + tag + "<br><br><div id='flickrLoader'><p></p></div><div id='flickrGallery'></div>")
-        $('#flickrLoader p').text('Searching for '+tag).fadeIn('fast');
-        var url = '//api.flickr.com/services/rest/?method=flickr.photos.search&api_key=a828a6571bb4f0ff8890f7a386d61975&sort=interestingness-desc&per_page=9&format=json&callback=jsonFlickrApi&tags='+tag;
-        $.ajax({
-          type: 'GET',
-          url: url,
-          async: false,
-          jsonpCallback: 'jsonFlickrApi',
-          contentType: "application/json",
-          dataType: 'jsonp'
+        // show the panorama in the map_canvas2 div element with the options that were set
+        panorama = new  google.maps.StreetViewPanorama(document.getElementById("map_canvas2"), panoramaOptions);
+        // set street view for map
+        map.setStreetView(panorama);
+        
+        // add marker for tour eiffel
+          // on map
+        var marker = new google.maps.Marker({
+          position: mapCenter, 
+          map: map, 
+          title: "National Aquarium"
         });
-      };
-
-      var jsonFlickrApi = function(results) {
-        $('#flickrLoader p').fadeOut('slow');
-        var photos = results.photos.photo;
-        $('#flickrGallery').empty();
-        $.each(photos, function(index, photo) {
-          $(document.createElement("img"))
-            .attr({ src: '//farm'+photo.farm+'.staticflickr.com/'+photo.server+'/'+photo.id+'_'+photo.secret+'_m.jpg' })
-            .addClass("flickrGallery")
-            .appendTo(flickrGallery);
+        google.maps.event.addListener(marker, 'click', function() {
+          if (hangout) { gapi.hangout.data.submitDelta({'posLat' : mapCenter.k.toString(), 'posLong' : mapCenter.A.toString() });
+          }
+          panorama.setPosition(mapCenter);
+          panorama.setPov({heading: -177, pitch: -0.3, zoom: 1});
         });
-      };
+          // on panorama
+        var markerPanorama = new google.maps.Marker({
+            position: mapCenter,
+            map: panorama,
+            title: "National Aquarium"
+         });
 
-      var okPerson = function() {
-        console.log("OK, Human");
-        clear();
-        $("#container").append("<div id='okperson'>OK, Human.</div>").fadeIn();
-      };
+        // add notre dame marker
+          // on map
+        var positionVaccaros = new google.maps.LatLng(39.286733,-76.602687);
+        var markerVaccaros = new google.maps.Marker({
+          position: positionVaccaros, 
+          map: map, 
+          title: "Vaccaros Market"
+        });
+        // add listener to change panorama options when the marker is clicked
+        google.maps.event.addListener(markerVaccaros, 'click', function() {
+          if (hangout) { gapi.hangout.data.submitDelta({'posLat' : positionVaccaros.k.toString(), 'posLong' : positionVaccaros.A.toString() });
+          }
+          panorama.setPosition(positionVaccaros);
+          panorama.setPov({heading: -67, pitch: +7, zoom: 1});
+        });
+          // on panorama
+        var markerVaccarosPanorama = new google.maps.Marker({
+            position: positionVaccaros,
+            map: panorama,
+            title: "Vaccaros"
+         });
+        
+        var positionPower = new google.maps.LatLng(39.288614,-76.606889);
+        var markerPower = new google.maps.Marker({
+          position: positionPower, 
+          map: map, 
+          title:"Powerplant Live"
+        });
+        // add listener to change panorama options when the marker is clicked
+        google.maps.event.addListener(markerPower, 'click', function() {
+          if (hangout) { gapi.hangout.data.submitDelta({'posLat' : positionPower.k.toString(), 'posLong' : positionPower.A.toString() });
+          }
+          panorama.setPosition(positionPower);
+          panorama.setPov({heading: 2, pitch: 3, zoom: 1});
+        });
+          // on panorama
+        var markerPowerPanorama = new google.maps.Marker({
+            position: positionPower,
+            map: panorama,
+            title: 'Powerplant Live'
+         });
 
-      var watch = function(query) {
-        clear();
-        console.log("watch: " + query);
-        $("#container").append('Youtube result for: ' + query + '<br><br>');
-        $("#container").append('<iframe id="ytplayer" type="text/html" width="640" height="360" src="https://www.youtube.com/embed/?listType=search&autoplay=1&list=' + query + '" frameborder="0" allowfullscreen></iframe><div id="playlist"></div>');
-      };
+        // add everbank marker
+        var positionEverbank = new google.maps.LatLng(30.323134,-81.639114);
+        var markerEverbank = new google.maps.Marker({
+          position: positionEverbank, 
+          map: map, 
+          title:"Everbank Stadium"
+        });
+        // add listener to change panorama options when the marker is clicked
+        google.maps.event.addListener(markerEverbank, 'click', function() {
+          if (hangout) { gapi.hangout.data.submitDelta({'posLat' : positionEverbank.k.toString(), 'posLong' : positionEverbank.A.toString() });
+          }
+          panorama.setPosition(positionEverbank);
+          panorama.setPov({heading: 2, pitch: 3, zoom: 1});
+        });
+          // on panorama
+        var markerEverbankPanorama = new google.maps.Marker({
+            position: positionEverbank,
+            map: panorama,
+            title: 'Everbank Stadium'
+         });
 
-      var define = function(query) {
-        clear();
-        console.log("define: " + query);
-        $.ajax({
-          url: '//api.pearson.com/v2/dictionaries/entries?headword=' + query + '&apikey=qfw3wC8nsZJhmF97mK2ywPmgZCpIxPBu', 
-          type: 'GET',
-          dataType: 'json',
-          success: function(data) {
-            var word = data['results'][0]['senses'][0];
-            $("#container").append("<div id='definition'><strong>" + query + "</strong><br>" + (word.definition !== undefined ? word.definition : '') + "</br><div>e.g. \"" + (word.examples[0].text !== undefined ? word.examples[0].text : '') + "\"</div>");
-              
+        // add graceland marker
+        var positionGraceland = new google.maps.LatLng(35.045943,-90.023125);
+        var markerGraceland = new google.maps.Marker({
+          position: positionGraceland, 
+          map: map, 
+          title:"Graceland"
+        });
+        // add listener to change panorama options when the marker is clicked
+        google.maps.event.addListener(markerGraceland, 'click', function() {
+          if (hangout) { gapi.hangout.data.submitDelta({'posLat' : positionGraceland.k.toString(), 'posLong' : positionGraceland.A.toString() });
+          }
+          panorama.setPosition(positionGraceland);
+          panorama.setPov({heading: 90, pitch: 6, zoom: 1});
+        });
+          // on panorama
+        var markerGracelandPanorama = new google.maps.Marker({
+            position: positionGraceland,
+            map: panorama,
+            title: 'Graceland'
+         });
+
+        // add eiffel marker
+        var positionEiffel = new google.maps.LatLng(48.856006,2.298072);
+        var markerEiffel = new google.maps.Marker({
+          position: positionEiffel, 
+          map: map, 
+          title:"Eiffel Tower"
+        });
+        // add listener to change panorama options when the marker is clicked
+        google.maps.event.addListener(markerEiffel, 'click', function() {
+          if (hangout) { gapi.hangout.data.submitDelta({'posLat' : positionEiffel.k.toString(), 'posLong' : positionEiffel.A.toString() });
+          }
+          panorama.setPosition(positionEiffel);
+          panorama.setPov({heading: -36.5, pitch: 9.5, zoom: 1});
+        });
+          // on panorama
+        var markerEiffelPanorama = new google.maps.Marker({
+            position: positionEiffel,
+            map: panorama,
+            title: 'Eiffel Tower'
+         });
+
+        // add mayan marker
+        var positionMayan = new google.maps.LatLng(17.043301,-96.767669);
+        var markerMayan = new google.maps.Marker({
+          position: positionMayan, 
+          map: map, 
+          title:"Mayan Ruins"
+        });
+        // add listener to change panorama options when the marker is clicked
+        google.maps.event.addListener(markerMayan, 'click', function() {
+          if (hangout) { gapi.hangout.data.submitDelta({'posLat' : positionMayan.k.toString(), 'posLong' : positionMayan.A.toString() });
+          }
+          panorama.setPosition(positionMayan);
+          panorama.setPov({heading: -4, pitch: 1, zoom: 1});
+        });
+          // on panorama
+        var markerMayanPanorama = new google.maps.Marker({
+            position: positionMayan,
+            map: panorama,
+            title: 'Mayan Ruins'
+         });
+
+        // add mayan marker
+        var positionReef = new google.maps.LatLng(-23.303693,151.915009);
+        var markerReef = new google.maps.Marker({
+          position: positionReef, 
+          map: map, 
+          title:"Great Barrier Reef"
+        });
+        // add listener to change panorama options when the marker is clicked
+        google.maps.event.addListener(markerReef, 'click', function() {
+          if (hangout) { gapi.hangout.data.submitDelta({'posLat' : positionReef.k.toString(), 'posLong' : positionReef.A.toString() });
+          }
+          panorama.setPosition(positionReef);
+          panorama.setPov({heading: -11.5, pitch: 1, zoom: 1});
+        });
+          // on panorama
+        var markerReefPanorama = new google.maps.Marker({
+            position: positionReef,
+            map: panorama,
+            title: 'Great Barrier Reef'
+         }); 
+
+        // add cherry marker
+        var positionCherry = new google.maps.LatLng(40.605641,140.466352);
+        var markerCherry = new google.maps.Marker({
+          position: positionCherry, 
+          map: map, 
+          title:"Cherry Blossoms"
+        });
+        // add listener to change panorama options when the marker is clicked
+        google.maps.event.addListener(markerCherry, 'click', function() {
+          if (hangout) { gapi.hangout.data.submitDelta({'posLat' : positionCherry.k.toString(), 'posLong' : positionCherry.A.toString() });
+          }
+          panorama.setPosition(positionCherry);
+          panorama.setPov({heading: 157.2, pitch: -4.8, zoom: 1});
+        });
+          // on panorama
+        var markerCherryPanorama = new google.maps.Marker({
+            position: positionCherry,
+            map: panorama,
+            title: 'Cherry Blossoms'
+         });
+
+        google.maps.event.addListener(panorama, 'position_changed', function() {
+          console.log("position changed: " + panorama.getPosition().k.toString() + ", " + panorama.getPosition().A.toString());
+          // changePosition(panorama.getPosition().k, panorama.getPosition().A);
+          if (hangout && gapi.hangout.getLocalParticipant().person.displayName == "Mariel Bartolome") { 
+            gapi.hangout.data.submitDelta({'posLat' : panorama.getPosition().k.toString(), 'posLong' : panorama.getPosition().A.toString() });
           }
         });
-      };
 
-      var synonym = function(query) {
-        clear();
-        console.log("synonym: " + query);
-        $("#container").append("<strong>Synonyms for: " + query + "</strong>");
-        $("#container").append("<div id='synonym'></div>");
-        $.ajax({
-          url: 'http://words.bighugelabs.com/api/2/38e36cde2d19f45d5a1e4e686f12b7d7/' + query + '/json',
-          type: 'GET',
-          dataType: 'jsonp',
-          success: function(data) {
-            for (key in data) {
-              var ary = data[key].syn;
-              for (word in ary) {
-                $("#synonym").append(ary[word] + "<br>");
-              }
-            }
+        google.maps.event.addListener(panorama, 'pov_changed', function() {
+          console.log("pov changed: " + panorama.getPov().heading.toString() + ", " + panorama.getPov().pitch.toString());
+          // changePov(panorama.getPov().heading, panorama.getPov().pitch);
+          if (hangout && gapi.hangout.getLocalParticipant().person.displayName == "Mariel Bartolome") { 
+            gapi.hangout.data.submitDelta({'heading' : panorama.getPov().heading.toString(), 'pitch' : panorama.getPov().pitch.toString() });
           }
         });
-      };
 
-      var recipe = function(query) {
-        clear();
-        console.log("recipe: " + query);
-        $("#container").append("Recipe for: " + query + "<div id='recipe'></div>");
-        $.ajax({
-          url: 'https://api.pearson.com/v2/foodanddrink/recipes?search=' + query,
-          type: 'GET',
-          dataType: 'json',
-          success: function(data) {
-            var recipe = data['results'][0];
-            if (recipe !== undefined) {
-              $("#recipe").append('<br><strong>Ingredients:</strong></br>');
-              var ingredients = recipe.ingredients;
-              for (i in ingredients) {
-                $("#recipe").append(ingredients[i].description + '</br>');
-              }
-              $("#recipe").append('</br></br><strong>Directions: </strong></br>' + recipe.directions.join('</br>'))
-            }
-          }
-        });
-      };
-
-      function replaceSoundcloud(track_url) {
-        SC.oEmbed(track_url, { auto_play: true, maxheight: 150, maxwidth: 800 }, function(oEmbed) {
-          $("#soundcloud").html(oEmbed.html).fadeIn();
-        });
       }
 
-      function soundcloud(query) {
-        clear();
-        console.log("soundcloud: " + query);
-        var track_url;
-        SC.get('/tracks', { q: query }, function(tracks) {
-          console.log(tracks[0]);
-
-          track_url = tracks[0].permalink_url;
-          SC.oEmbed(track_url, { auto_play: true, maxheight: 150, maxwidth: 800 }, function(oEmbed) {
-            $("#container").append("<div id='soundcloud'>" + oEmbed.html + "</div>");
-            $("#container").append("<div id='soundcloud_results'>Soundcloud results for: " + query + "<br>");
-            for (var i = 0; i < tracks.length; i++) {
-              $("#soundcloud_results").append("<a onClick=replaceSoundcloud('" + tracks[i].permalink_url + "')>" + tracks[i].title + "</a><br>")
-            }
-            $("#container").append("</div>");
-          });
-        });
+      function changePosition(posLat, posLong) {
+        console.log("latlong: " + posLat + ", " + posLong);
+        var pos = new google.maps.LatLng(posLat, posLong);
+        panorama.setPosition(pos);
       }
 
-      function flickrFired(term) {
-          gapi.hangout.data.submitDelta({"showFlickr":term});
+      function changePov(heading, pitch) { 
+        console.log("heading: " +  heading + " pitch: " + pitch);
+        panorama.setPov({heading: parseFloat(heading), pitch: parseFloat(pitch)});
       }
 
-      function okFired() {
-        console.log('before firing');
-        gapi.hangout.data.submitDelta({"okPerson" : "true"});
-      }
-
-      function locateFired(term) {
-        gapi.hangout.data.submitDelta({'locate' : term});
-      }
-
-      function evalFired(term) {
-        gapi.hangout.data.submitDelta({'evaluate' : term});
-      }
-
-      function watchFired(term) {
-        gapi.hangout.data.submitDelta({'watch' : term});
-      }
-
-      function listenFired(term) {
-        gapi.hangout.data.submitDelta({'soundcloud' : term});
-      }
-
-      function defineFired(term) {
-        gapi.hangout.data.submitDelta({'define' : term});
-      }
-
-      function synonymFired(term) {
-        gapi.hangout.data.submitDelta({'synonym' : term});
-      }
-
-      function cookFired(term) {
-        gapi.hangout.data.submitDelta({'cook' : term});
-      }
-
-
-      /** Kick off the app. */
       function init() {
-        // When API is ready...
+        // When API is ready...                                                         
         gapi.hangout.onApiReady.add(
           function(eventObj) {
             if (eventObj.isApiReady) {
               initialize();
-
-              SC.initialize({
-                client_id: '42a4426020b57d83c51a76d65856cca8'
-              });
-
-              if (annyang) {
-
-                // Let's define a command.
-                var commands = {
-                  'ok hangout': okFired, 
-                  'show me *term': flickrFired,
-                  'where is *location': locateFired,
-                  'calculate *expression': evalFired,
-                  'watch *term': watchFired,
-                  'listen to *query': listenFired,
-                  'define *term': defineFired,
-                  'synonym for *term': synonymFired,
-                  'cook *term': cookFired
-                };
-                // Add our commands to annyang
-                annyang.addCommands(commands);
-
-                // Start listening.
-                annyang.start();
+              if (gapi.hangout.getLocalParticipant().person.displayName != "Mariel Bartolome") {
+                gapi.hangout.data.onStateChanged.add(function(event) {
+                  changePosition(gapi.hangout.data.getValue("posLat"), gapi.hangout.data.getValue("posLong"));
+                  changePov(gapi.hangout.data.getValue("heading"), gapi.hangout.data.getValue("pitch"));
+                });
               }
-
-              gapi.hangout.data.onStateChanged.add(function(event) {
-                console.log('state has changed!');
-                console.log('object: ' + gapi.hangout.data.getState());
-                console.log('value: ' + gapi.hangout.data.getValue("showFlickr"));
-                console.log(event);
-                if (gapi.hangout.data.getValue("showFlickr") !== undefined) {
-                  console.log('in flickr');
-                  showFlickr(gapi.hangout.data.getValue("showFlickr"));
-                  gapi.hangout.data.clearValue("showFlickr");
-                } else if (gapi.hangout.data.getValue("okPerson") !== undefined) {
-                  console.log('in person');
-                  okPerson(gapi.hangout.data.getValue("okPerson"));
-                  gapi.hangout.data.clearValue("okPerson");
-                } else if (gapi.hangout.data.getValue("locate") !== undefined) {
-                  console.log('in locate');
-                  locate(gapi.hangout.data.getValue("locate"));
-                  gapi.hangout.data.clearValue("locate");
-                } else if (gapi.hangout.data.getValue("evaluate") !== undefined) {
-                  console.log('in eval');
-                  evaluate(gapi.hangout.data.getValue("evaluate"));
-                  gapi.hangout.data.clearValue("evaluate");
-                } else if (gapi.hangout.data.getValue("watch") !== undefined ) {
-                  console.log('in watch');
-                  watch(gapi.hangout.data.getValue("watch"));
-                  gapi.hangout.data.clearValue("watch");
-                } else if (gapi.hangout.data.getValue("soundcloud") !== undefined ) {
-                  console.log('in soundcloud');
-                  soundcloud(gapi.hangout.data.getValue("soundcloud"));
-                  gapi.hangout.data.clearValue("soundcloud");
-                } else if (gapi.hangout.data.getValue("define") !== undefined) {
-                  console.log('in define');
-                  define(gapi.hangout.data.getValue("define"));
-                  gapi.hangout.data.clearValue("define");
-                } else if (gapi.hangout.data.getValue("synonym") !== undefined) {
-                  console.log('in synonym');
-                  define(gapi.hangout.data.getValue("synonym"));
-                  gapi.hangout.data.clearValue("synonym");
-                } else if (gapi.hangout.data.getValue("cook") !== undefined) {
-                  console.log('in cook');
-                  recipe(gapi.hangout.data.getValue("cook"));
-                  gapi.hangout.data.clearValue("cook");
-                }
-              });
             }
           }
         );
       }
 
+      if (hangout) {
+        gadgets.util.registerOnLoadHandler(init);
+      } else {
+        initialize();
+      }
 
-      // Wait for gadget to load.                                                       
-      gadgets.util.registerOnLoadHandler(init);
-    </script>
-
+    </script> 
   </body>
+</html>
     ]]>
   </Content>
 </Module>
