@@ -6,74 +6,245 @@
     <title>Foundation | Welcome</title>
     <link rel="stylesheet" href="css/foundation.css" />
     <script src="js/vendor/modernizr.min.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Magra' rel='stylesheet' type='text/css'>
+    <style>
+      body, h1, h2, h3, h4 ,h5, h6, .accordion dd > a { font-family: "Magra", "Helvetica Neue", Helvetica, sans-serif; color: #222;}
+      body { width: 95%; margin: 30px auto;}
+      h1, h4 { margin: 0;}
+      .center { text-align: center }
+      .row { max-width: 78rem; }
+      .accordion dd > a { padding: .5rem;}
+      .blurb { display: none; }
+      .blurb-img img { max-width: 240px; min-height: 150px; margin-bottom: 20px;}
+      .blurb-title { height: 140px; } 
+      .footer { margin-bottom: 30px;}
+      .subheader, a, a:visited { color: #DB4A38;}
+      .upcoming img { width: 120px; height: 120px; float: left;}
+      .upcoming h5 { float: left; margin-left: 10px;}
+      #front img { margin-right: 20px; }
+      #front p, #front img { float: left; }
+    </style>
   </head>
   <body>
-        <!-- Nav and Banner -->
-    
-    <div class="row">
-      <div class="large-12 columns">
-        <ul class="button-group">
-          <li><a href="#" class="button">Link 1</a></li>
-          <li><a href="#" class="button">Link 2</a></li>
-          <li><a href="#" class="button">Link 3</a></li>
-          <li><a href="#" class="button">Link 4</a></li>
-          <li><a href="#" class="button">Link 5</a></li>
-          <li><a href="#" class="button">Link 6</a></li>
-          <li><a href="#" class="button">Link 7</a></li>
-        </ul>
-        
-        <!-- Main Banner Image - place in a paragraph to enforce the modular scale spacing -->
-        <p><img src="http://placehold.it/1000x400&text=[banner img]" /></p>
-      </div>
-    </div>
-    
-    <!-- End Nav and Banner -->
     
     
     <!-- Main Content Section -->
     
     <div class="row">
-    
-      <div class="large-8 columns">
-        <h4>This is a content section.</h4>
-        <p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit, dolore aliqua non est magna in labore pig pork biltong. Eiusmod swine spare ribs reprehenderit culpa. Boudin aliqua adipisicing rump corned beef.</p>
-        <p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit, dolore aliqua non est magna in labore pig pork biltong. Eiusmod swine spare ribs reprehenderit culpa. Boudin aliqua adipisicing rump corned beef.</p>
-        <p><a href="#" class="secondary small button">Next Page →</a></p>
+      <div class="row">
+        <div class="large-4 large-centered small-centered columns center">
+          <h1>Hangout Tours</h1>
+          <h4 class="subheader center">Where will you go?</h1>
+        </div>
       </div>
+      <div class="row">
+        <hr />
+        <div class="large-2 columns">
+          <h3>Browse Tours</h3>
+          <dl class="accordion" data-accordion>
+            <dd>
+              <a href="#panel1">East</a>
+              <div id="panel1" class="content">
+                <dl class="accordion" data-accordion>
+                  <dd>
+                    <a href="#panel1a">Maryland</a>
+                    <div id="panel1a" class="content">
+                      <p>Baltimore</p>
+                    </div>
+                  </dd>
+                </dl>
+              </div>
+            </dd>
+            <dd>
+              <a href="#panel2">Southeast</a>
+              <div id="panel2" class="content">
+                <dl class="accordion" data-accordion>
+                  <dd>
+                    <a href="#panel1a">North Carolina</a>
+                    <div id="panel1a" class="content">
+                      <a onClick="openCharlotte()">Charlotte</a>
+                      <p>Eastern</p>
+                    </div>
+                  </dd>
+                  <dd>
+                    <a href="#panel1b">Tennessee</a>
+                    <div id="panel1b" class="content">
+                      <a onClick="openMemphis()">Memphis</a><br>
+                      <a onClick="openNashville()">Nashville</a>
+                    </div>
+                  </dd>
+                  <dd>
+                    <a href="#panel1c">Florida</a>
+                    <div id="panel1c" class="content">
+                      <a onClick="openJack()">Jacksonville</a>
+                      <p>Miami</p>
+                    </div>
+                  </dd>
+                </dl>
+              </div>
+            </dd>
+          </dl>
+        </div>
       
-      <div class="large-4 columns">
-      
-        <!-- Gallery d with a block grid. Note: block grid items should be the same size for optimal results -->
-        
-        <ul class="small-block-grid-3">
-          <li><a href="#"><img src="http://placehold.it/120x120" /></a></li>
-          <li><a href="#"><img src="http://placehold.it/120x120" /></a></li>
-          <li><a href="#"><img src="http://placehold.it/120x120" /></a></li>
-          <li><a href="#"><img src="http://placehold.it/120x120" /></a></li>
-          <li><a href="#"><img src="http://placehold.it/120x120" /></a></li>
-          <li><a href="#"><img src="http://placehold.it/120x120" /></a></li>
-        </ul>
-      </div>
+        <div class="large-10 columns">
+          <div id="front">
+            <div class="row">
+              <div class="large-12 columns">
+                <p>
+                  <img src="http://media.giphy.com/media/abGuGiKMShdPq/giphy.gif">
+                  Welcome to Hangout Tours, where you can visit the streets of almost any city or locale and be led by knowledgeable guides, from anywhere in the world! 
+                  <br><br>
+                  As an enhancement for Google Hangouts and Google Maps, all you need is a Google account to get started immediately. Start a regular Google Hangout, and open the Hangout Tour app. Once you accept a few settings changes, a map and streetview image will appear and then you’re ready to go! Now it’s not just you and Pegman walking the streets, but you and an experienced guide teaching you all you need to know. 
+                  <br><br>
+                  Organize a tour with your friends or colleagues, or hop in to any of the open tours scheduled already. Never leave for a new place without knowing everything a true native should. Never limit learning about a city because of physical boundaries. The world is waiting, so start a Hangout Tour today!
+                </p>
+              </div>
+            </div>
+          </div>
+          <div id="jacksonville" class="blurb">
+            <div class="row blurb-title">
+              <div class="large-3 columns blurb-img">
+                <img src="http://upload.wikimedia.org/wikipedia/commons/a/ae/Jacksonville_Skyline_Panorama_3.jpg">
+              </div>
+
+              <div class="large-5 columns">
+                <h2>Jacksonville, FL</h2>
+                <h3 class="subheader">"The River City"</h3>
+              </div>
+
+              <div class="large-4 columns">
+                <img src="https://ssl.gstatic.com/s2/oz/images/stars/hangout/1/gplus-hangout-60x230-normal.png" alt="Start a Hangout" style="border:0;width:230px;height:60px;">
+              </div>
+                
+            </div>
+
+            <div class="row">
+              <div class="large-12 columns">
+                <p>After a complex history of a Spanish colony turning into the American frontier, Jacksonville has situated itself as one of the nation's largest cities. While often overlooked because of in-state neighbors like Orlanda and Miami, Jacksonville truly ranks as a complete city by providing quality destinations and weather to its 800,000 residents.
+                </p>
+                  
+                <h5>Today’s Hangout Tour: Teach for America</h5>
+                <p>
+                  In 2007, community leaders in Jacksonville sought out Teach For America as a vital part of the solution to improve educational prospects for students in Duval County.  Since Teach For America – Jacksonville launched with 50 corps members in 2008, we have brought over 200 high quality teachers to Jacksonville who have directly impacted the lives of over 13,000 low-income and minority students across Duval County. Because of successes like this we are building towards a scale that will allow us to effect transformational change across the entire city.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div id="memphis" class="blurb">
+            <div class="row blurb-title">
+              <div class="large-3 columns blurb-img">
+                <img src="http://www.homefirstrealtors.com/images/websites/h/o/homefirstrealtors.com/skyline.jpg" alt="MemphisSkyline">
+              </div>
+
+              <div class="large-5 columns">
+                <h2>Memphis, TN</h2>
+                <h3 class="subheader">"The Home of Soul"</h3>
+              </div>
+
+              <div class="large-4 columns">
+                <img src="https://ssl.gstatic.com/s2/oz/images/stars/hangout/1/gplus-hangout-60x230-normal.png" alt="Start a Hangout" style="border:0;width:230px;height:60px;">
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="large-12 columns">
+                <p>Widely considered the home of rock n' roll, gospel, and soul music, it's hard to imagine a better sounding city than Memphis. But the appeal goes way beyond music history, to some of the nation's premiere concert venues, and a massive outdoor show called Memphis in May. Need something other than music? Memphis is a true city with art museums, a world class zoo, historical sights, and more</p>
+                  
+                <h5>Today’s Hangout Tour: Teach for America</h5>
+                <p>
+                  Nearly 50 years after Dr. King gave his life here in the fight for equality, only 4 percent of kids in our city graduate high school ready for college. Only 26 percent of residents in the Memphis Metropolitan Area hold a bachelor’s degree. We are not living up to the legacy left to us by Civil Rights leaders when a quality education is still a privilege in our region and not a right. As we consider the educational landscape in Memphis today, we are convinced that our city must be the place that fulfills Dr. King’s dreams of a day when we are “an oasis of freedom and justice”.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div id="nashville" class="blurb">
+            <div class="row blurb-title">
+              <div class="large-3 column blurb-imgs">
+                <img src="http://americantalesandtrails.com/wp-content/uploads/2010/06/nashville-skyline-1.jpg" alt="CharlotteSkyline">
+              </div>
+
+              <div class="large-5 columns">
+                <h2>Nashville, TN</h2>
+                <h3 class="subheader">"Music City, USA"</h3>
+              </div>
+
+              <div class="large-4 columns">
+                <img src="https://ssl.gstatic.com/s2/oz/images/stars/hangout/1/gplus-hangout-60x230-normal.png" alt="Start a Hangout" style="border:0;width:230px;height:60px;">
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="large-12 columns">
+                <p>Nashville faces tough competition to the claim of "Music City", but it certainly packs a punch in that fued. From the Grand Old Opry to the Country Music Hall of Fame, the state capital of Tennessee has no shortage of musical expertise. Around the city, you'll also find major sports franchises, outdoor festivals, and historical museums.
+                </p>
+                  
+                <h5>Today’s Hangout Tour: Teach for America</h5>
+                <p>
+                  Charlotte’s education system has a rich history, from being at the forefront of the desegregation movement in the 1970s to winning the prestigious Broad Prize for Urban Education in 2011. Despite this, there is still a very real disparity in educational opportunities between low-income students and their more affluent peers. Within a few miles of the prospering business districts of downtown, there are schools where only one-third of students are on grade level in reading and math. Teach For America is working with school, community, political, and business leaders across Charlotte to change this.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div id="charlotte" class="blurb">
+            <div class="row blurb-title">
+              <div class="large-3 columns blurb-img">
+                <img src="http://upload.wikimedia.org/wikipedia/commons/0/0a/Charlotte_Skyline_2011_-_Ricky_W.jpg" alt="CharlotteSkyline" height="600" width="600">
+              </div>
+
+              <div class="large-9 columns">
+                <h2>Charlotte, NC</h2>
+                <h3 class="subheader">"A Hornet's Nest of Rebellion"</h3>
+              </div>
+
+              <div class="large-5 columns">
+                <img src="https://ssl.gstatic.com/s2/oz/images/stars/hangout/1/gplus-hangout-60x230-normal.png" alt="Start a Hangout" style="border:0;width:230px;height:60px;">
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="large-12 columns">
+                <p>Charlotte is the largest city in North Carolina, and has long lived up to the standard of its royal namesake. After its founding in 1755, Charlotte was famed for its contributions to the rebellions of the American Revolution and Civil War. It has since turned this tenacious spirit into a thriving, and still growing, metropolis. </p>
+                  
+                <h5>Today’s Hangout Tour: Teach for America</h5>
+                <p>
+                  Charlotte’s education system has a rich history, from being at the forefront of the desegregation movement in the 1970s to winning the prestigious Broad Prize for Urban Education in 2011. Despite this, there is still a very real disparity in educational opportunities between low-income students and their more affluent peers. Within a few miles of the prospering business districts of downtown, there are schools where only one-third of students are on grade level in reading and math. Teach For America is working with school, community, political, and business leaders across Charlotte to change this.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
           
+      </div>
     </div>
     
     
     <!-- Call to Action Panel -->
     <div class="row">
-      <div class="large-12 columns">
+      <div class="large-12 columns upcoming">
       
-        <div class="panel">
-          <h4>Get in touch!</h4>
-              
-          <div class="row">
-            <div class="large-9 columns">
-              <p>We'd love to hear from you, you attractive person you.</p>
-            </div>
-            <div class="large-3 columns">
-              <a href="#" class="radius button right">Contact Us</a>
-            </div>
-          </div>
-        </div>
+        <h3>Upcoming Tours</h3>
+        <ul class="small-block-grid-4">
+          <li>
+            <img src="http://static.greatbigcanvas.com/images/square/getty-images/national-aquarium-at-inner-harbor-baltimore-maryland-usa,1117386.jpg?max=128" alt="Baltimore">
+            <h5>Baltimore, MD</h5>
+            <h5 class="subheader">April 1, 2:00pm</h5>
+          </li>
+          <li>
+            <img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTWsgZj42W6k6CZMD0yHw0Im3lC43vCaqEwbG_wXp5Tsv4tZ9x2lw" alt="Charlotte">
+            <h5>Charlotte, NC</h5>
+            <h5 class="subheader">April 1, 4:00pm</h5>
+          </li>
+          <li>
+            <img src="http://static.greatbigcanvas.com/images/square/replay-photos/memphis-pictures-blue-skies-over-memphis,rp29422.jpg?max=128" alt="Memphis">
+            <h5>Memphis, TN</h5>
+            <h5 class="subheader">April 1, 6:00pm</h5>
+          </li>
+          <li>
+            <img src="https://ncidisk.blob.core.windows.net/marketpages/jacksonvillefl-jacksonville-fl-skyline.jpg" alt="Jacksonville">
+            <h5>Jacksonville, FL</h5>
+            <h5 class="subheader">April 1, 8:00pm</h5>
+          </li>
+        </ul>
         
       </div>
     </div>
@@ -81,24 +252,11 @@
     
     <!-- Footer -->
     
-    <footer class="row">
+    <footer class="row footer">
+      <hr />
       <div class="large-12 columns">
-        <hr />
-        <div class="row">
-          <div class="large-6 columns">
-            <p>© Copyright no one at all. Go to town.</p>
-          </div>
-          <div class="large-6 columns">
-            <ul class="inline-list right">
-              <li><a href="#">Link 1</a></li>
-              <li><a href="#">Link 2</a></li>
-              <li><a href="#">Link 3</a></li>
-              <li><a href="#">Link 4</a></li>
-              <li><a href="#">Link 5</a></li>
-              <li><a href="#">Link 6</a></li>
-              <li><a href="#">Link 7</a></li>
-            </ul>
-          </div>
+        <div class="row">    
+          Hacked by <a href="//twitter.com/whatmariel" target="_blank">@whatmariel</a> and <a href="//twitter.com/tylerbabich" target="_blank">@tylerbabich</a> at HackDuke
         </div>
       </div> 
     </footer>
@@ -108,6 +266,26 @@
     <script src="js/vendor/foundation.accordion.js"></script>
     <script>
       $(document).foundation();
+      function openMemphis() {
+        $('#front').hide();
+        $('.blurb').hide();
+        $('#memphis').fadeIn();
+      }
+      function openJack() {
+        $('#front').hide();
+        $('.blurb').hide();
+        $('#jacksonville').fadeIn();
+      }
+      function openCharlotte() {
+        $('#front').hide();
+        $('.blurb').hide();
+        $('#charlotte').fadeIn();
+      }
+      function openNashville() {
+        $('#front').hide();
+        $('.blurb').hide();
+        $('#nashville').fadeIn();
+      }
     </script>
   </body>
 </html>
