@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Foundation | Welcome</title>
+    <title>Hanggout Tours | Where will you go?</title>
     <link rel="stylesheet" href="css/foundation.css" />
     <script src="js/vendor/modernizr.min.js"></script>
     <link href='http://fonts.googleapis.com/css?family=Magra' rel='stylesheet' type='text/css'>
@@ -49,7 +49,7 @@
                   <dd>
                     <a href="#panel1a">Maryland</a>
                     <div id="panel1a" class="content">
-                      <p>Baltimore</p>
+                      <a onClick="openBaltimore()">Baltimore</a>
                     </div>
                   </dd>
                 </dl>
@@ -107,13 +107,15 @@
                 <img src="http://upload.wikimedia.org/wikipedia/commons/a/ae/Jacksonville_Skyline_Panorama_3.jpg">
               </div>
 
-              <div class="large-5 columns">
+              <div class="large-7 columns">
                 <h2>Jacksonville, FL</h2>
                 <h3 class="subheader">"The River City"</h3>
               </div>
 
-              <div class="large-4 columns">
-                <img src="https://ssl.gstatic.com/s2/oz/images/stars/hangout/1/gplus-hangout-60x230-normal.png" alt="Start a Hangout" style="border:0;width:230px;height:60px;">
+              <div class="large-2 columns">
+                <div class="g-hangout" data-render="createhangout"
+                    data-initial_apps="[{ app_id : '674318545016' }]">
+                </div>
               </div>
                 
             </div>
@@ -130,19 +132,52 @@
               </div>
             </div>
           </div>
+          <div id="baltimore" class="blurb">
+            <div class="row blurb-title">
+              <div class="large-3 columns blurb-img">
+                <img src="http://www.baltimorenewsjournal.com/wp-content/uploads/2013/01/National-Aquarium.jpg">
+              </div>
+
+              <div class="large-7 columns">
+                <h2>Baltimore, MD</h2>
+                <h3 class="subheader">"The Charm City"</h3>
+              </div>
+
+              <div class="large-2 columns">
+                <div class="g-hangout" data-render="createhangout"
+                    data-initial_apps="[{ app_id : '674318545016' }]">
+                </div>
+              </div>
+                
+            </div>
+
+            <div class="row">
+              <div class="large-12 columns">
+                <p>Baltimore is the gem of the Mid-Atlantic region, boasting 300 years of history, home to some of the world’s most famous authors, plus a vibrant culture bringing the best in sports, music, and cuisine.
+                </p>
+                  
+                <h5>Today’s Hangout Tour: Teach for America</h5>
+                <p>
+                  Based on the most recent Maryland School Assessment (MSA) data, only 62% of Baltimore City eighth graders are proficient in reading and just 38% are proficient in math compared to 91% and 82%, respectively, in Howard County.Teach For America’s deep investment in Baltimore has shown that great leaders in classrooms, schools, and systems have the potential to significantly shift academic trajectories and life opportunities for Baltimore’s young people. We are heartened by the recent progress in schools—enrollment, graduation rates, and standardized test scores have all improved over the past five years.
+                </p>
+              </div>
+            </div>
+          </div>
           <div id="memphis" class="blurb">
             <div class="row blurb-title">
               <div class="large-3 columns blurb-img">
                 <img src="http://www.homefirstrealtors.com/images/websites/h/o/homefirstrealtors.com/skyline.jpg" alt="MemphisSkyline">
               </div>
 
-              <div class="large-5 columns">
+              <div class="large-7 columns">
                 <h2>Memphis, TN</h2>
                 <h3 class="subheader">"The Home of Soul"</h3>
               </div>
 
-              <div class="large-4 columns">
-                <img src="https://ssl.gstatic.com/s2/oz/images/stars/hangout/1/gplus-hangout-60x230-normal.png" alt="Start a Hangout" style="border:0;width:230px;height:60px;">
+              <div class="large-2 columns">
+                <div class="g-hangout" data-render="createhangout"
+                    data-initial_apps="[{ app_id : '674318545016' }]">
+                </div>
               </div>
             </div>
 
@@ -163,13 +198,15 @@
                 <img src="http://americantalesandtrails.com/wp-content/uploads/2010/06/nashville-skyline-1.jpg" alt="CharlotteSkyline">
               </div>
 
-              <div class="large-5 columns">
+              <div class="large-7 columns">
                 <h2>Nashville, TN</h2>
                 <h3 class="subheader">"Music City, USA"</h3>
               </div>
 
-              <div class="large-4 columns">
-                <img src="https://ssl.gstatic.com/s2/oz/images/stars/hangout/1/gplus-hangout-60x230-normal.png" alt="Start a Hangout" style="border:0;width:230px;height:60px;">
+              <div class="large-2 columns">
+                <div class="g-hangout" data-render="createhangout"
+                    data-initial_apps="[{ app_id : '674318545016' }]">
+                </div>
               </div>
             </div>
 
@@ -191,13 +228,15 @@
                 <img src="http://upload.wikimedia.org/wikipedia/commons/0/0a/Charlotte_Skyline_2011_-_Ricky_W.jpg" alt="CharlotteSkyline" height="600" width="600">
               </div>
 
-              <div class="large-9 columns">
+              <div class="large-7 columns">
                 <h2>Charlotte, NC</h2>
                 <h3 class="subheader">"A Hornet's Nest of Rebellion"</h3>
               </div>
 
-              <div class="large-5 columns">
-                <img src="https://ssl.gstatic.com/s2/oz/images/stars/hangout/1/gplus-hangout-60x230-normal.png" alt="Start a Hangout" style="border:0;width:230px;height:60px;">
+              <div class="large-2 columns">
+                <div class="g-hangout" data-render="createhangout"
+                    data-initial_apps="[{ app_id : '674318545016' }]">
+                </div>
               </div>
             </div>
 
@@ -264,6 +303,7 @@
     <script src="js/vendor/jquery.min.js"></script>
     <script src="js/foundation.min.js"></script>
     <script src="js/vendor/foundation.accordion.js"></script>
+    <script type="text/javascript" src="https://apis.google.com/js/platform.js"></script>
     <script>
       $(document).foundation();
       function openMemphis() {
@@ -285,6 +325,11 @@
         $('#front').hide();
         $('.blurb').hide();
         $('#nashville').fadeIn();
+      }
+      function openBaltimore() {
+        $('#front').hide();
+        $('.blurb').hide();
+        $('#baltimore').fadeIn();
       }
     </script>
   </body>

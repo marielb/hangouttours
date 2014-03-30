@@ -41,9 +41,9 @@
   <body>
     <div id="main">
       <h1>Hangout Tours: Baltimore City</h1>
-      <div id="map_canvas1" style="width: 650px; height: 400px; float: left;"></div> 
+      <div id="map_canvas1" style="width: 450px; height: 400px; float: left;"></div> 
       <div id="space" style="width=10px; height: 400px; float: left;">&nbsp;</div> 
-      <div id="map_canvas2" style="width: 650px; height: 400px; float: left;"></div>
+      <div id="map_canvas2" style="width: 450px; height: 400px; float: left;"></div>
     </div>
     <br>
     <footer>-----<br>Hacked by <a href="//twitter.com/whatmariel" target="_blank">@whatmariel</a> and <a href="//twitter.com/tylerbabich" target="_blank">@tylerbabich</a> at HackDuke</footer>
@@ -53,6 +53,7 @@
       var panorama;
       var panoramaOptions;
       var hangout = true;
+      var leader = false;
     
       // the function called when the page loads; it shows the map and street view
       function initialize() {
@@ -69,7 +70,7 @@
         map = new google.maps.Map(document.getElementById("map_canvas1"), mapOptions);
         
         // options for the panorama
-        if (hangout && gapi.hangout.getLocalParticipant().person.displayName != "Mariel Bartolome") {
+        if (hangout && leader == false) {
           panoramaOptions = {
             draggable: false,
             addressControl: true,
@@ -296,7 +297,7 @@
         google.maps.event.addListener(panorama, 'position_changed', function() {
           console.log("position changed: " + panorama.getPosition().k.toString() + ", " + panorama.getPosition().A.toString());
           // changePosition(panorama.getPosition().k, panorama.getPosition().A);
-          if (hangout && gapi.hangout.getLocalParticipant().person.displayName == "Mariel Bartolome") { 
+          if (hangout && leader) { 
             gapi.hangout.data.submitDelta({'posLat' : panorama.getPosition().k.toString(), 'posLong' : panorama.getPosition().A.toString() });
           }
         });
@@ -304,7 +305,7 @@
         google.maps.event.addListener(panorama, 'pov_changed', function() {
           console.log("pov changed: " + panorama.getPov().heading.toString() + ", " + panorama.getPov().pitch.toString());
           // changePov(panorama.getPov().heading, panorama.getPov().pitch);
-          if (hangout && gapi.hangout.getLocalParticipant().person.displayName == "Mariel Bartolome") { 
+          if (hangout && leader) { 
             gapi.hangout.data.submitDelta({'heading' : panorama.getPov().heading.toString(), 'pitch' : panorama.getPov().pitch.toString() });
           }
         });
@@ -327,8 +328,11 @@
         gapi.hangout.onApiReady.add(
           function(eventObj) {
             if (eventObj.isApiReady) {
+              if (gapi.hangout.getLocalParticipant().person.displayName == gapi.hangout.getParticipants()[0].person.displayName) {
+                leader = true;
+              }
               initialize();
-              if (gapi.hangout.getLocalParticipant().person.displayName != "Mariel Bartolome") {
+              if (leader == false) {
                 gapi.hangout.data.onStateChanged.add(function(event) {
                   changePosition(gapi.hangout.data.getValue("posLat"), gapi.hangout.data.getValue("posLong"));
                   changePov(gapi.hangout.data.getValue("heading"), gapi.hangout.data.getValue("pitch"));
